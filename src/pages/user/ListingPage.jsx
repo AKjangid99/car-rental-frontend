@@ -4,6 +4,7 @@ import ListingCard from "../../components/ListingCard";
 const ListingPage = () => {
   const carList = [
     {
+      id: 1,
       image: "/images/creta.png",
       name: "Hyundai Creta",
       type: "SUV",
@@ -20,6 +21,7 @@ const ListingPage = () => {
       onBook: true,
     },
     {
+      id: 2,
       image: "/images/swift.png",
       name: "Maruti Swift",
       type: "Hatchback",
@@ -36,6 +38,7 @@ const ListingPage = () => {
       onBook: false,
     },
     {
+      id: 3,
       image: "/images/city.png",
       name: "Honda City",
       type: "Sedan",
@@ -52,6 +55,7 @@ const ListingPage = () => {
       onBook: true,
     },
     {
+      id: 4,
       image: "/images/thar.png",
       name: "Mahindra Thar",
       type: "SUV",
@@ -68,6 +72,7 @@ const ListingPage = () => {
       onBook: false,
     },
     {
+      id: 5,
       image: "/images/innova.png",
       name: "Toyota Innova",
       type: "MPV",
@@ -87,7 +92,7 @@ const ListingPage = () => {
 
   return (
     <>
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
         {carList.map((car) => (
           <ListingCard
             key={car.id}

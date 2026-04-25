@@ -3,16 +3,14 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import LandingPage from "./LandingPage";
 import ListingPage from "../user/ListingPage";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 
 const Home = () => {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/list" element={<ListingPage />} />
-      </Routes>
+
+      <Outlet />
 
       <Footer />
     </>
