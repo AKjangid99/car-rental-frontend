@@ -7,6 +7,7 @@ import SignUp from "./pages/auth/Signup";
 import ListingPage from "./pages/user/ListingPage";
 import LandingPage from "./pages/home/LandingPage";
 import CarDetails from "./pages/user/CarDetails";
+import OwnerCarlist from "./pages/owner/MyCars";
 
 function App() {
   return (
@@ -25,7 +26,9 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
 
         {/* Owner Routes */}
-        <Route path="/admin/Home"></Route>
+        <Route path="/admin">
+          <Route path="/admin/allcar" element={<OwnerCarlist />}></Route>
+        </Route>
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>

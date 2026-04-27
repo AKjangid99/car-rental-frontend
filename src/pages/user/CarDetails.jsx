@@ -1,18 +1,176 @@
 import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import RangeCalendar from "../../components/Calander";
 
 const CarDetils = () => {
-  const { id } = useParams();
+  const [selectedImage, setSelectedImage] = useState(0);
+
+  const car = {
+    name: "BMW M4 Competition",
+    type: "Sport Coupe",
+    price: 180,
+    rating: "4.9 / 5.0",
+    reviews: 56,
+    images: [
+      "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=1000",
+      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1000",
+      "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&q=80&w=1000",
+    ],
+    // Specs listed as text labels
+    specs: [
+      { label: "Engine", value: "3.0L Inline-6" },
+      { label: "Power", value: "503 HP" },
+      { label: "0-60 MPH", value: "3.8s" },
+      { label: "Drivetrain", value: "AWD" },
+    ],
+    features: [
+      "Premium Leather",
+      "Harman Kardon Sound",
+      "Parking Assistant",
+      "Carbon Fiber Trim",
+    ],
+  };
+
   return (
-    <>
-      <div className="p-10">
-        <h1 className="text-3xl font-bold">Car Details</h1>
-        <p className="mt-4 text-xl">
-          You are looking at the car with ID:{" "}
-          <span className="text-blue-600">{id}</span>
-        </p>
-        {/* You can now use this ID to fetch specific car data from an API or array */}
+    <div className="max-w-6xl mx-auto p-6 md:p-12 bg-white text-slate-900">
+      {/* Top Navigation */}
+      {/* <div className="flex justify-between items-center mb-10 border-b pb-6">
+        <button className="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-black transition-colors">
+          Back to Fleet
+        </button>
+        <div className="flex gap-8 text-xs font-bold uppercase tracking-widest">
+          <button className="hover:text-blue-600">Share</button>
+          <button className="hover:text-red-500">Wishlist</button>
+        </div>
+      </div> */}
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        {/* Left Section */}
+        <div className="lg:col-span-7">
+          <h1 className="text-5xl font-black italic uppercase mb-2 tracking-tighter">
+            {car.name}
+          </h1>
+          <p className="text-blue-600 font-bold mb-8 uppercase tracking-widest text-sm">
+            {car.type}
+          </p>
+
+          {/* Main Image */}
+          <div className="mb-6 bg-slate-100 rounded-lg overflow-hidden shadow-2xl">
+            <img
+              src={car.images[selectedImage]}
+              alt="Vehicle"
+              className="w-full h-[450px] object-cover"
+            />
+          </div>
+
+          {/* Thumbnails */}
+          <div className="flex gap-3 mb-12">
+            {car.images.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setSelectedImage(i)}
+                className={`flex-1 h-20 overflow-hidden rounded ${selectedImage === i ? "ring-2 ring-black" : "opacity-50"}`}
+              >
+                <img src={img} className="w-full h-full object-cover" alt="" />
+              </button>
+            ))}
+          </div>
+
+          {/* Specs Grid */}
+          <div className="grid grid-cols-2 gap-px bg-slate-200 border border-slate-200 rounded-lg overflow-hidden mb-12">
+            {car.specs.map((spec, i) => (
+              <div key={i} className="bg-white p-6">
+                <p className="text-[10px] uppercase font-bold text-slate-400 mb-1 tracking-widest">
+                  {spec.label}
+                </p>
+                <p className="text-lg font-bold uppercase italic">
+                  {spec.value}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-6">
+            <h2 className="text-2xl font-black uppercase tracking-tight">
+              Standard Amenities
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {car.features.map((f, i) => (
+                <span
+                  key={i}
+                  className="px-4 py-2 bg-slate-100 text-[11px] font-bold uppercase rounded"
+                >
+                  {f}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Section: Checkout Card */}
+        <div className="lg:col-span-5">
+          <div className="bg-slate-50 p-8 rounded-3xl sticky top-12 border border-slate-100">
+            <div className="mb-8">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
+                Rental Rate
+              </p>
+              <h2 className="text-4xl font-black italic">
+                ${car.price}
+                <span className="text-lg font-normal not-italic text-slate-400">
+                  {" "}
+                  / Day
+                </span>
+              </h2>
+            </div>
+
+            <div className="space-y-6 mb-8">
+              {/* <div className="group">
+                <label className="text-[10px] font-black uppercase tracking-tighter text-slate-500">
+                  Pick-up Date
+                </label>
+                <input
+                  type="date"
+                  className="w-full bg-transparent border-b-2 border-slate-200 py-2 outline-none focus:border-black transition-colors"
+                />
+              </div>
+              <div className="group">
+                <label className="text-[10px] font-black uppercase tracking-tighter text-slate-500">
+                  Return Date
+                </label>
+                <input
+                  type="date"
+                  className="w-full bg-transparent border-b-2 border-slate-200 py-2 outline-none focus:border-black transition-colors"
+                />
+              </div> */}
+              <RangeCalendar />
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-3 mb-8">
+              <div className="flex justify-between text-xs font-bold uppercase">
+                <span className="text-slate-400">Days</span>
+                <span>3</span>
+              </div>
+              <div className="flex justify-between text-xs font-bold uppercase">
+                <span className="text-slate-400">Tax & Fees</span>
+                <span>$24.00</span>
+              </div>
+              <div className="flex justify-between text-lg font-black uppercase italic pt-3 border-t">
+                <span>Total</span>
+                <span>$564.00</span>
+              </div>
+            </div>
+
+            <button className="w-full bg-blue-600 text-white py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-black transition-all transform hover:-translate-y-1 shadow-xl active:translate-y-0">
+              Complete Reservation
+            </button>
+
+            <p className="mt-6 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Verified Rental • Rating: {car.rating}
+            </p>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
