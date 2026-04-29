@@ -1,37 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ListingCard = ({
-  image,
-  name,
+  images,
+  carname,
   type,
-  pricePerDay,
+  rent,
   oldPrice,
-  seats,
-  transmission,
+  num_seats,
+  transmission = "Auto",
   mileage,
   rating,
   reviewsCount,
-  onBook,
 }) => {
+  const navigate = useNavigate();
+  const onBook = (id) => {
+    navigate("/details/" + id);
+  };
+
+  useEffect(() => {
+    console.log(images);
+  }, []);
+
   return (
-    // Fixed width with w-full and max-w-sm; h-full ensures all cards in a row match height
     <div className="group w-full max-w-sm mx-auto bg-white border border-gray-100 rounded-[2.5rem] p-3 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col h-full">
-      {/* Image Section - Fixed Aspect Ratio */}
+      {/* images Section - Fixed Aspect Ratio */}
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[2rem] flex-shrink-0">
         <img
-          src={image}
-          alt={name}
+          src={images[0]}
+          alt={carname}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
 
         {/* Top Badges */}
-        <div className="absolute top-4 left-4 flex gap-2">
+        {/* <div className="absolute top-4 left-4 flex gap-2">
           <div className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-xl shadow-sm">
             <span className="text-[10px] font-black uppercase text-orange-600 tracking-tighter">
               {type}
             </span>
           </div>
-        </div>
+        </div> */}
 
         <div className="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-md px-2 py-1 rounded-xl flex items-center gap-1 border border-white/10">
           <svg
@@ -50,7 +58,7 @@ const ListingCard = ({
         <div className="flex justify-between items-start mb-5">
           <div className="max-w-[60%]">
             <h2 className="text-xl font-black text-gray-900 tracking-tight leading-tight mb-1 truncate">
-              {name}
+              {carname}
             </h2>
             <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest italic truncate">
               {transmission} • {mileage}
@@ -63,9 +71,7 @@ const ListingCard = ({
               </p>
             )}
             <div className="flex items-baseline gap-1 justify-end">
-              <span className="text-xl font-black text-gray-900">
-                ${pricePerDay}
-              </span>
+              <span className="text-xl font-black text-gray-900">${rent}</span>
               <span className="text-gray-400 text-[10px] font-bold uppercase">
                 /day
               </span>
@@ -77,9 +83,9 @@ const ListingCard = ({
         <div className="grid grid-cols-3 gap-2 mb-6 mt-auto">
           <div className="bg-gray-50 rounded-2xl p-2 text-center border border-transparent hover:border-orange-100 transition-colors">
             <p className="text-[9px] font-bold text-gray-400 uppercase">
-              Seats
+              num_seats
             </p>
-            <p className="text-xs font-black text-gray-700">{seats}</p>
+            <p className="text-xs font-black text-gray-700">{num_seats}</p>
           </div>
           <div className="bg-gray-50 rounded-2xl p-2 text-center border border-transparent hover:border-orange-100 transition-colors">
             <p className="text-[9px] font-bold text-gray-400 uppercase">Gear</p>
@@ -97,7 +103,7 @@ const ListingCard = ({
 
         {/* Action Button */}
         <button
-          onClick={onBook}
+          onClick={() => onBook(3)}
           className="group/btn relative w-full h-12 bg-gray-900 rounded-2xl overflow-hidden transition-all duration-300 active:scale-95 shadow-lg mt-auto"
         >
           {/* <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-600 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div> */}

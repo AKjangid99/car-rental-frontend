@@ -1,9 +1,12 @@
-import { useParams } from "react-router-dom";
-import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import React, { useContext, useState } from "react";
 import RangeCalendar from "../../components/Calander";
+import { MyContext } from "../../App";
 
 const CarDetils = () => {
   const [selectedImage, setSelectedImage] = useState(0);
+  const { user } = useContext(MyContext);
+  const navigate = useNavigate();
 
   const car = {
     name: "BMW M4 Competition",
@@ -160,9 +163,20 @@ const CarDetils = () => {
               </div>
             </div>
 
-            <button className="w-full bg-blue-600 text-white py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-black transition-all transform hover:-translate-y-1 shadow-xl active:translate-y-0">
-              Complete Reservation
-            </button>
+            {!user ? (
+              <button
+                className="w-full bg-blue-600 text-white py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-black transition-all transform hover:-translate-y-1 shadow-xl active:translate-y-0"
+                onClick={() => navigate("/login")}
+              >
+                login
+              </button>
+            ) : (
+              <>
+                <button className="w-full bg-blue-600 text-white py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-black transition-all transform hover:-translate-y-1 shadow-xl active:translate-y-0">
+                  Complete Reservation
+                </button>
+              </>
+            )}
 
             <p className="mt-6 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
               Verified Rental • Rating: {car.rating}

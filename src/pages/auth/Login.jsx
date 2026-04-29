@@ -1,9 +1,13 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { handleLogIn } from "../../services/callSrvice";
 import { storeData } from "../../services/storage";
+import { MyContext } from "../../App";
 
 const Login = () => {
+  const { setUser } = useContext(MyContext);
+  const navigate = useNavigate();
+
   const [mode, setMode] = useState("rent");
   const [formData, setFormData] = useState({
     email: "",
@@ -27,6 +31,16 @@ const Login = () => {
     try {
       let res = await handleLogIn(mode, formData);
       await storeData("sessiondetails", res.data);
+
+      console.log(res);
+
+      setUser({ name: res.data.username, role: res.data.role });
+
+      if (res.data.role == "owner") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (e) {
       console.log(e);
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CarCard from "../../components/card";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
@@ -6,39 +6,49 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import SearchIcon from "@mui/icons-material/Search";
 
 import Button from "../../components/Button";
-import EditCard from "../../components/editcard";
 import ListingCard from "../../components/ListingCard";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [loading, setLoading] = useState(false);
+  const searchInput = useRef(null);
+  const navigate = useNavigate();
+
+  const search = () => {
+    const value = searchInput.current.value;
+    if (value) {
+      navigate(`/list/${value}`);
+    }
+  };
 
   const featuredCars = [
     {
       id: 1,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbCmLuI_G61puiUwX5Unx8TExDT_uFLUx4CQDXu2tvAGuRIN2ekFQdaq0_nLClwSUFHj-42MjWa7wiuiQE3tkEVdgbPl-taRdRxz-31w&s=10",
-      name: "Hyundai Creta",
-      type: "SUV",
-      pricePerDay: 210,
-      oldPrice: 250,
-      seats: 5,
-      bags: 2,
+      images: [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5zsHGkYvVda4u9kOGMocQwRQJ8GBVp9SzWg&s",
+      ],
+      carname: "Porsche Taycan",
+      rent: 500,
+      oldPrice: 700,
+      num_seats: 2,
+      bags: 4,
       largeBags: 1,
       transmission: "Auto",
-      mileage: "16 km/l",
+      mileage: "4 km/l",
       hasAC: true,
       rating: 4.7,
       reviewsCount: 188,
     },
     {
       id: 2,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbCmLuI_G61puiUwX5Unx8TExDT_uFLUx4CQDXu2tvAGuRIN2ekFQdaq0_nLClwSUFHj-42MjWa7wiuiQE3tkEVdgbPl-taRdRxz-31w&s=10",
-      name: "Hyundai Creta",
+      images: [
+        "https://encrypted-tbn0.gstatic.com/imagess?q=tbn:ANd9GcRDMncg5q6QY9l3YuVzVKbb8zlFVyJNgVmNhw&s",
+      ],
+      carname: "Hyundai Creta",
       type: "SUV",
-      pricePerDay: 210,
+      rent: 210,
       oldPrice: 250,
-      seats: 5,
+      num_seats: 5,
       bags: 2,
       largeBags: 1,
       transmission: "Auto",
@@ -47,33 +57,32 @@ const LandingPage = () => {
       rating: 4.7,
       reviewsCount: 188,
     },
-    ,
     {
       id: 3,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbCmLuI_G61puiUwX5Unx8TExDT_uFLUx4CQDXu2tvAGuRIN2ekFQdaq0_nLClwSUFHj-42MjWa7wiuiQE3tkEVdgbPl-taRdRxz-31w&s=10",
-      name: "Hyundai Creta",
-      type: "SUV",
-      pricePerDay: 210,
+      images: [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ZiiUq0tudLqtks3JfDsFikWer2DZUDcCMw&s",
+      ],
+      carname: "Fortuner",
+      rent: 210,
       oldPrice: 250,
-      seats: 5,
+      num_seats: 7,
       bags: 2,
       largeBags: 1,
       transmission: "Auto",
-      mileage: "16 km/l",
+      mileage: "8 km/l",
       hasAC: true,
       rating: 4.7,
       reviewsCount: 188,
     },
     {
       id: 4,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbCmLuI_G61puiUwX5Unx8TExDT_uFLUx4CQDXu2tvAGuRIN2ekFQdaq0_nLClwSUFHj-42MjWa7wiuiQE3tkEVdgbPl-taRdRxz-31w&s=10",
-      name: "Hyundai Creta",
-      type: "SUV",
-      pricePerDay: 210,
+      images: [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUlNdagI3cRtCN7XG5nnLz1OOPuPTdi9fgQA&s",
+      ],
+      carname: "Dodoge Hell Cat ",
+      rent: 210,
       oldPrice: 250,
-      seats: 5,
+      num_seats: 5,
       bags: 2,
       largeBags: 1,
       transmission: "Auto",
@@ -82,8 +91,6 @@ const LandingPage = () => {
       rating: 4.7,
       reviewsCount: 188,
     },
-
-    ,
   ];
 
   return (
@@ -118,13 +125,17 @@ const LandingPage = () => {
               <div className="flex-[2] flex items-center px-5 py-4 gap-3 border-b md:border-b-0 md:border-r border-slate-200">
                 <SearchIcon className="text-blue-600 w-6 h-6" />
                 <input
+                  ref={searchInput}
                   type="text"
                   placeholder="Where do you need a car?"
                   className="w-full text-slate-800 text-lg outline-none placeholder:text-slate-400 bg-transparent"
                 />
               </div>
 
-              <button className="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-lg shadow-blue-600/30">
+              <button
+                className="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold py-4 px-10 rounded-xl transition-all shadow-lg shadow-blue-600/30"
+                onClick={search}
+              >
                 Find a Car
               </button>
             </div>
@@ -152,7 +163,6 @@ const LandingPage = () => {
             </div>
             <Button variant="outline" text="View All" />
           </div>
-
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {[1, 2, 3, 4].map((i) => (

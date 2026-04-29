@@ -9,9 +9,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-
       <Outlet />
-
       <Footer />
     </>
   );

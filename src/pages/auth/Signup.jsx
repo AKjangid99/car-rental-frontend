@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleSignup } from "../../services/callSrvice";
 
 const Signup = () => {
   const [role, setRole] = useState("rent");
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,7 +26,7 @@ const Signup = () => {
 
     try {
       const res = await handleSignup(role, finalData);
-      console.log(res);
+      navigate("/login");
     } catch (e) {
       console.log(e);
     }
