@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+const FALLBACK_CAR_IMAGE =
+  "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1000";
+
 const ListingCard = ({
   id,
   images,
@@ -40,8 +43,11 @@ const ListingCard = ({
       {/* images Section - Fixed Aspect Ratio */}
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[2rem] flex-shrink-0">
         <img
-          src={images[0]}
+          src={images?.[0] || FALLBACK_CAR_IMAGE}
           alt={carname}
+          onError={(e) => {
+            e.currentTarget.src = FALLBACK_CAR_IMAGE;
+          }}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
 
@@ -96,21 +102,21 @@ const ListingCard = ({
         <div className="grid grid-cols-3 gap-2 mb-6 mt-auto">
           <div className="bg-gray-50 rounded-2xl p-2 text-center border border-transparent hover:border-orange-100 transition-colors">
             <p className="text-[9px] font-bold text-gray-400 uppercase">
-              num_seats
+              Seats
             </p>
             <p className="text-xs font-black text-gray-700">{num_seats}</p>
           </div>
           <div className="bg-gray-50 rounded-2xl p-2 text-center border border-transparent hover:border-orange-100 transition-colors">
             <p className="text-[9px] font-bold text-gray-400 uppercase">Gear</p>
             <p className="text-xs font-black text-gray-700">
-              {transmission[0]}
+              {transmission?.[0] || "A"}
             </p>
           </div>
           <div className="bg-gray-50 rounded-2xl p-2 text-center border border-transparent hover:border-orange-100 transition-colors">
             <p className="text-[9px] font-bold text-gray-400 uppercase">
-              Range
+              Mileage
             </p>
-            <p className="text-xs font-black text-gray-700">Auto</p>
+            <p className="text-xs font-black text-gray-700">{mileage || "—"}</p>
           </div>
         </div>
 

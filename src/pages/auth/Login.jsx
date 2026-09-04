@@ -30,11 +30,18 @@ const Login = () => {
     }
     try {
       let res = await handleLogIn(mode, formData);
-      await storeData("sessiondetails", res.data);
 
-      console.log(res);
+      // Persist a single, consistent session shape so the user survives a
+      // page reload (App reads this same object back into context) and API
+      // calls keep access to the auth token.
+      const sessionUser = {
+        name: res.data.username,
+        role: res.data.role,
+        token: res.data.token,
+      };
+      storeData("sessiondetails", sessionUser);
 
-      setUser({ name: res.data.username, role: res.data.role });
+      setUser(sessionUser);
 
       if (res.data.role == "owner") {
         navigate("/admin");

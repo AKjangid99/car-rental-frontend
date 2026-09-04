@@ -1,10 +1,12 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import React, { useContext, useState } from "react";
+import { differenceInCalendarDays } from "date-fns";
 import RangeCalendar from "../../components/Calander";
 import { MyContext } from "../../App";
 
 const CarDetils = () => {
   const [selectedImage, setSelectedImage] = useState(0);
+  const [range, setRange] = useState();
   const { user } = useContext(MyContext);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -39,6 +41,16 @@ const CarDetils = () => {
       "Carbon Fiber Trim",
     ],
   };
+
+  // Derive the booking summary from the dates the user actually selects.
+  const days =
+    range?.from && range?.to
+      ? differenceInCalendarDays(range.to, range.from) + 1
+      : 0;
+  const subtotal = days * car.price;
+  const taxes = Math.round(subtotal * 0.08 * 100) / 100;
+  const total = subtotal + taxes;
+  const currency = (n) => `$${Number(n).toFixed(2)}`;
 
   return (
     <div className="max-w-6xl mx-auto p-6 md:p-12 bg-white text-slate-900">
@@ -151,22 +163,29 @@ const CarDetils = () => {
                   className="w-full bg-transparent border-b-2 border-slate-200 py-2 outline-none focus:border-black transition-colors"
                 />
               </div> */}
-              <RangeCalendar />
+              <RangeCalendar range={range} onChange={setRange} />
             </div>
 
             <div className="bg-white p-6 rounded-2xl border border-slate-200 space-y-3 mb-8">
               <div className="flex justify-between text-xs font-bold uppercase">
-                <span className="text-slate-400">Days</span>
-                <span>3</span>
+                <span className="text-slate-400">
+                  {currency(car.price)} × {days} {days === 1 ? "day" : "days"}
+                </span>
+                <span>{currency(subtotal)}</span>
               </div>
               <div className="flex justify-between text-xs font-bold uppercase">
                 <span className="text-slate-400">Tax & Fees</span>
-                <span>$24.00</span>
+                <span>{currency(taxes)}</span>
               </div>
               <div className="flex justify-between text-lg font-black uppercase italic pt-3 border-t">
                 <span>Total</span>
-                <span>$564.00</span>
+                <span>{currency(total)}</span>
               </div>
+              {days === 0 && (
+                <p className="text-[10px] font-bold text-slate-400 normal-case tracking-normal pt-1">
+                  Select a pick-up and return date to see your total.
+                </p>
+              )}
             </div>
 
             {!user ? (
@@ -174,14 +193,15 @@ const CarDetils = () => {
                 className="w-full bg-blue-600 text-white py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-black transition-all transform hover:-translate-y-1 shadow-xl active:translate-y-0"
                 onClick={() => navigate("/login")}
               >
-                login
+                Log in to book
               </button>
             ) : (
-              <>
-                <button className="w-full bg-blue-600 text-white py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-black transition-all transform hover:-translate-y-1 shadow-xl active:translate-y-0">
-                  Complete Reservation
-                </button>
-              </>
+              <button
+                disabled={days === 0}
+                className="w-full bg-blue-600 text-white py-5 rounded-full font-black uppercase tracking-widest text-sm hover:bg-black transition-all transform hover:-translate-y-1 shadow-xl active:translate-y-0 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-blue-600"
+              >
+                Complete Reservation
+              </button>
             )}
 
             <p className="mt-6 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">

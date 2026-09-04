@@ -1,26 +1,11 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { useContext, useEffect } from "react";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import axios from "axios";
-import { MyContext } from "../../App";
 
 const Dashboard = () => {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
-
-  async function getcars() {
-    try {
-      const res = await axios.get("http://localhost:3000/owner", {
-        headers: {
-          Authorization: `Bearer ${user.Token}`,
-        },
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">

@@ -68,7 +68,7 @@ const OwnerCarlist = () => {
     try {
       const res = await axios.get("http://localhost:3000/owner", {
         headers: {
-          Authorization: `Bearer ${user.Token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
 
@@ -89,7 +89,7 @@ const OwnerCarlist = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {carList.map((car) => (
             <div key={car.id} className="flex h-full">
-              <EditCard {...car} onBook={() => alert(`Booking ${car.name}`)} />
+              <EditCard {...car} />
             </div>
           ))}
         </div>

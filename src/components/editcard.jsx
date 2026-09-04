@@ -12,18 +12,22 @@ const EditCard = ({
   status = "Active",
 }) => {
   // 2. Safely handle the image array you just created in the DB
+  const FALLBACK_CAR_IMAGE =
+    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1000";
+
   const displayImage =
-    images && images.length > 0
-      ? images[0]
-      : "https://via.placeholder.com/400x300?text=No+Image+Available";
+    images && images.length > 0 ? images[0] : FALLBACK_CAR_IMAGE;
 
   return (
     <div className="group max-w-sm mx-auto bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden">
       {/* Image Container */}
       <div className="relative overflow-hidden">
         <img
-          src={displayImage} // Use the variable!
+          src={displayImage}
           alt={carname}
+          onError={(e) => {
+            e.currentTarget.src = FALLBACK_CAR_IMAGE;
+          }}
           className="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-500"
         />
         {/* <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full shadow-sm">

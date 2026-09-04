@@ -40,11 +40,10 @@ const Addcar = () => {
 
     console.log("Submitted Data:", carData);
 
-    console.log(`Bearer ${user.Token}`);
     try {
       const res = await axios.post("http://localhost:3000/owner/add", carData, {
         headers: {
-          Authorization: `Bearer ${user.Token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
     } catch (e) {

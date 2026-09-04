@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between relative">
+    <nav className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between sticky top-0 z-50">
       <Link to="/" className="text-xl font-bold tracking-wide">
         CarRental
       </Link>
@@ -35,11 +35,13 @@ const Navbar = () => {
           /* If user DOES exist, show their name and a Logout button */
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-300">
-              <span className="font-semibold text-white">{user.name}</span>
+              <span className="font-semibold text-white">
+                {user.name || user.username}
+              </span>
             </span>
 
             {/* If they are an admin/owner, show dashboard link */}
-            {user.role === "list" && (
+            {user.role === "owner" && (
               <Link to="/admin" className="text-blue-400 hover:underline">
                 Dashboard
               </Link>

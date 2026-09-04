@@ -1,39 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { DayPicker } from "react-day-picker";
-import { format } from "date-fns";
 import "react-day-picker/dist/style.css";
 
-const RangeCalendar = () => {
-  const [range, setRange] = useState();
-
-  const disabledDays = [{ before: new Date() }, new Date(2026, 3, 28)];
+// Controlled range calendar. The selected range is owned by the parent so the
+// booking summary can react to the dates the user picks.
+const RangeCalendar = ({ range, onChange }) => {
+  const disabledDays = [{ before: new Date() }];
 
   return (
-    <>
-      <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-        <h2>Select Range</h2>
+    <div>
+      <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3">
+        Select your rental dates
+      </p>
+      <div className="bg-white rounded-2xl border border-slate-200 p-2 flex justify-center">
         <DayPicker
           mode="range"
           selected={range}
-          onSelect={setRange}
+          onSelect={onChange}
           disabled={disabledDays}
           numberOfMonths={1}
         />
-
-        <div style={{ marginTop: "10px" }}>
-          {range?.from ? (
-            <p>
-              {format(range.from, "PPP")}
-              {range.to
-                ? ` to ${format(range.to, "PPP")}`
-                : " (select end date)"}
-            </p>
-          ) : (
-            <p>Please pick the first day.</p>
-          )}
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 

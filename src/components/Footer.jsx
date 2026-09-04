@@ -86,7 +86,7 @@ const Footer = () => {
 
           <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
             <div className="flex gap-6">
-              <span>© 2026 VeloDrive Inc.</span>
+              <span>© 2026 CarRental Inc.</span>
               <a href="#" className="hover:text-slate-300 transition-colors">
                 Privacy Policy
               </a>
