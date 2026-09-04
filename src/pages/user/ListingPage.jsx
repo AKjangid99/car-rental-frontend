@@ -49,6 +49,7 @@ const ListingPage = () => {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ZiiUq0tudLqtks3JfDsFikWer2DZUDcCMw&s",
       ],
       carname: "Fortuner",
+      type: "SUV",
       rent: 210,
       oldPrice: 250,
       num_seats: 7,

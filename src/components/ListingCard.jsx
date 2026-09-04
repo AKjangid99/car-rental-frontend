@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const ListingCard = ({
+  id,
   images,
   carname,
   type,
@@ -14,13 +15,25 @@ const ListingCard = ({
   reviewsCount,
 }) => {
   const navigate = useNavigate();
-  const onBook = (id) => {
-    navigate("/details/" + id);
+  const onBook = () => {
+    navigate("/details/" + id, {
+      state: {
+        car: {
+          id,
+          images,
+          carname,
+          type,
+          rent,
+          oldPrice,
+          num_seats,
+          transmission,
+          mileage,
+          rating,
+          reviewsCount,
+        },
+      },
+    });
   };
-
-  useEffect(() => {
-    console.log(images);
-  }, []);
 
   return (
     <div className="group w-full max-w-sm mx-auto bg-white border border-gray-100 rounded-[2.5rem] p-3 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col h-full">
@@ -103,7 +116,7 @@ const ListingCard = ({
 
         {/* Action Button */}
         <button
-          onClick={() => onBook(3)}
+          onClick={onBook}
           className="group/btn relative w-full h-12 bg-gray-900 rounded-2xl overflow-hidden transition-all duration-300 active:scale-95 shadow-lg mt-auto"
         >
           {/* <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-600 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div> */}

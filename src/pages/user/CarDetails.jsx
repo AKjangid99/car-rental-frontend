@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import React, { useContext, useState } from "react";
 import RangeCalendar from "../../components/Calander";
 import { MyContext } from "../../App";
@@ -7,24 +7,30 @@ const CarDetils = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const { user } = useContext(MyContext);
   const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+
+  // Car data passed from the listing card via router state.
+  const selected = location.state?.car;
 
   const car = {
-    name: "BMW M4 Competition",
-    type: "Sport Coupe",
-    price: 180,
-    rating: "4.9 / 5.0",
-    reviews: 56,
-    images: [
-      "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1000",
-      "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?auto=format&fit=crop&q=80&w=1000",
-    ],
+    name: selected?.carname || "Car #" + id,
+    type: selected?.type || "Rental Vehicle",
+    price: selected?.rent ?? 0,
+    rating: selected?.rating ? `${selected.rating} / 5.0` : "N/A",
+    reviews: selected?.reviewsCount ?? 0,
+    images:
+      selected?.images && selected.images.length > 0
+        ? selected.images
+        : [
+            "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=1000",
+          ],
     // Specs listed as text labels
     specs: [
-      { label: "Engine", value: "3.0L Inline-6" },
-      { label: "Power", value: "503 HP" },
-      { label: "0-60 MPH", value: "3.8s" },
-      { label: "Drivetrain", value: "AWD" },
+      { label: "Seats", value: `${selected?.num_seats ?? "-"}` },
+      { label: "Transmission", value: selected?.transmission || "Auto" },
+      { label: "Mileage", value: selected?.mileage || "-" },
+      { label: "Type", value: selected?.type || "-" },
     ],
     features: [
       "Premium Leather",
